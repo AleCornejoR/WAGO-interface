@@ -1,11 +1,11 @@
 from time import sleep
-from source.model import WagoPLC
+from testmodel import WagoPLC
 import sys
 
 
 def setupWAGO():
     wago = WagoPLC("192.168.1.8", 16, True, virtual=False)
-    wago.connect()
+    wago.connection()
     if wago.modbus == None:
         sys.exit(1)
     print("WAGO connected")
@@ -21,8 +21,8 @@ solution_delay = 1
 pos_solution_delay = 2
 between_rep_delay = 0.5
 
-solution_valve = 2
-air_valve = 4
+solution_valve = 5
+air_valve = 6
 
 wago = setupWAGO()
 

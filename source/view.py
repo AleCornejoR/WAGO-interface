@@ -11,7 +11,8 @@ from PyQt6.QtWidgets import (
     QFormLayout,
     QTextEdit,
 )
-from PyQt6.QtGui import QPixmap, QDoubleValidator, QIntValidator  # Import validators
+from PyQt6.QtGui import QDoubleValidator, QIntValidator  # Import validators
+import qtawesome as qta
 
 
 class View(QWidget):
@@ -46,9 +47,9 @@ class View(QWidget):
         self.tabs.addTab(self.tester_tab, self.config["tabs"]["tester_tab"]["name"])
 
         # Create the settings tab
-        self.settings_tab = QWidget()
+        # self.settings_tab = QWidget()
         # self.setup_main_tab()
-        self.tabs.addTab(self.settings_tab, self.config["tabs"]["settings_tab"]["name"])
+        # self.tabs.addTab(self.settings_tab, self.config["tabs"]["settings_tab"]["name"])
 
         # Main layout for the window
         window_layout = QVBoxLayout()
@@ -154,6 +155,10 @@ class View(QWidget):
         num_valves = self.config.get("num_valves", 8)  # Default value is 8
         valve_options = [str(i) for i in range(num_valves)]
 
+        # Clear existing options
+        self.solution_valve_combobox.clear()
+        self.gas_valve_combobox.clear()
+
         # Configure the dropdowns
         self.solution_valve_combobox.addItems(valve_options)
         self.gas_valve_combobox.addItems(valve_options)
@@ -170,8 +175,15 @@ class View(QWidget):
 
     def create_input_fields(self):
         # Validators
-        float_validator = QDoubleValidator()  # Validator for float numbers
-        int_validator = QIntValidator()  # Validator for integer numbers
+        float_validator = QDoubleValidator()
+        float_validator.setBottom(
+            0.01
+        )  # Configura el límite inferior para los valores flotantes
+
+        int_validator = QIntValidator()
+        int_validator.setBottom(
+            1
+        )  # Configura el límite inferior para los valores enteros
 
         # Configuration for delay fields
         delays_config = self.config.get("delays", {})
@@ -211,6 +223,7 @@ class View(QWidget):
         setattr(self, "repetition_input", repetition_input)
 
     def apply_button_styles(self, button, style_config):
+        icon = style_config["icon"]
         padding = style_config["padding"]
         min_width = style_config["min-width"]
         max_width = style_config["max-width"]
@@ -227,6 +240,11 @@ class View(QWidget):
 
         disabled_bg_color = style_config["disabled-background-color"]
         disabled_text_color = style_config["disabled-color"]
+
+        # Leer el estado predeterminado desde la configuración
+        default_state = style_config.get("default_state", "disabled")
+
+        button.setIcon(qta.icon(icon, color="white"))
 
         # Crear la cadena de estilo CSS
         style_sheet = f"""
@@ -253,6 +271,12 @@ class View(QWidget):
         """
         # Aplicar el estilo al botón
         button.setStyleSheet(style_sheet)
+
+        # Configurar el estado del botón (habilitado o deshabilitado) basado en el estado predeterminado
+        if default_state == "disabled":
+            button.setDisabled(True)
+        else:
+            button.setDisabled(False)
 
     def apply_text_box_styles(self, text_box, style_config):
         style_sheet = f"""
@@ -283,3 +307,20 @@ class View(QWidget):
         """
 
         text_box.setStyleSheet(style_sheet)
+
+    def get_tester_value(self, key):
+        # Mapear las claves a los métodos correspondientes
+        field_mapping = {
+            "repetition_num": lambda: int(self.repetition_input.text()),
+            "pre_solution": lambda: float(self.pre_solution_input.text()),
+            "solution": lambda: float(self.solution_input.text()),
+            "pos_solution": lambda: float(self.pos_solution_input.text()),
+            "between_repetition": lambda: float(self.between_repetition_input.text()),
+            "air_valve": lambda: int(self.gas_valve_combobox.currentText()),
+            "solution_valve": lambda: int(self.solution_valve_combobox.currentText()),
+        }
+
+        if key in field_mapping:
+            return field_mapping[key]()
+        else:
+            raise ValueError(f"Unknown key: {key}")

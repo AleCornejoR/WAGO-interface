@@ -51,8 +51,9 @@
     },
     "buttons": {
         "connect_button": {
-            "label": "Connect",
+            "label": "  Connect",
             "style": {
+                "icon": "ei.random",
                 "background-color": "#2196F3",
                 "border-radius": "10px",      
                 "color": "white",
@@ -64,12 +65,14 @@
                 "pressed-background-color": "#0D47A1",
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
-                "disabled-color": "#808080"
+                "disabled-color": "#808080",
+                "default_state": "enabled"
             }
         },
         "poweroff_button": {
-            "label": "PowerOFF Valves",
+            "label": "  Shut down Valves",
             "style": {
+                "icon": "ei.off",
                 "background-color": "#E74C3C",
                 "border-radius": "10px",      
                 "color": "white",
@@ -81,12 +84,14 @@
                 "pressed-background-color": "#A93226",
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
-                "disabled-color": "#808080"
+                "disabled-color": "#808080",
+                "default_state": "disabled"
             }
         },
         "test_button": {
-            "label": "Test",
+            "label": "  Test",
             "style": {
+                "icon": "ri.logout-circle-r-line",
                 "background-color": "#28a745",
                 "border-radius": "10px",      
                 "color": "white",
@@ -98,7 +103,27 @@
                 "pressed-background-color": "#1e7e34",
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
-                "disabled-color": "#808080"
+                "disabled-color": "#808080",
+                "default_state": "disabled"
+            }
+        },
+        "stop_button": {
+            "label": "  Stop",
+            "style": {
+                "icon": "msc.stop",
+                "background-color": "#E74C3C",
+                "border-radius": "10px",      
+                "color": "white",
+                "padding": "5px 5px",    
+                "min-width": "300px",
+                "max-width": "300px",
+                "hover-background-color": "#C0392B",
+                "hover-color": "white",
+                "pressed-background-color": "#A93226",
+                "pressed-color": "white", 
+                "disabled-background-color": "#CCCCCC",
+                "disabled-color": "#808080",
+                "default_state": "enabled"
             }
         }
     },

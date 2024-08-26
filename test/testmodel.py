@@ -44,11 +44,9 @@ class WagoPLC:
             print(
                 f"Could not connect to WAGO at IP {self.ip}! Double-check IP address and connections."
             )
-            self.connection_status = "FAIL"
             return
 
         self.modbus = client
-        self.connection_status = "SUCCESS"
 
     def resetValves(self):
         for i in range(self.numcoils):
