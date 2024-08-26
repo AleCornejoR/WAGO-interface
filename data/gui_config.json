@@ -1,0 +1,136 @@
+{
+    "num_valves": 16,
+    "solution_valve": {
+        "label": "Solution Valve:",
+        "default_value": "10"
+    },
+    "gas_valve": {
+        "label": "Gas Valve:",
+        "default_value": "9"
+    },
+    "delays": {
+        "pre_solution": {
+            "label": "Pre solution delay (s):",
+            "default_value": "0.5",
+            "type": "float"
+        },
+        "solution": {
+            "label": "Solution delay (s):",
+            "default_value": "0.5",
+            "type": "float"
+        },
+        "pos_solution": {
+            "label": "Pos solution delay (s):",
+            "default_value": "0.5",
+            "type": "float"
+        },
+        "between_repetition": {
+            "label": "Delay between reps (s):",
+            "default_value": "0.5",
+            "type": "float"
+        }
+    },
+    "repetition_num": {
+        "label": "Repetition times:",
+        "default_value": "1",
+        "type": "int"
+    },
+    "image": {
+        "path": "path/to/your/image.jpg"
+    },
+    "tabs": {
+        "home_tab": {
+            "name": "Home"
+        },
+        "tester_tab": {
+            "name": "Tester"
+        },
+        "settings_tab": {
+            "name": "Settings"
+        }
+    },
+    "buttons": {
+        "connect_button": {
+            "label": "Connect",
+            "style": {
+                "background-color": "#2196F3",
+                "border-radius": "10px",      
+                "color": "white",
+                "padding": "5px 5px",    
+                "min-width": "100px",
+                "max-width": "100px",
+                "hover-background-color": "#1976D2",
+                "hover-color": "white",
+                "pressed-background-color": "#0D47A1",
+                "pressed-color": "white", 
+                "disabled-background-color": "#CCCCCC",
+                "disabled-color": "#808080"
+            }
+        },
+        "poweroff_button": {
+            "label": "PowerOFF Valves",
+            "style": {
+                "background-color": "#E74C3C",
+                "border-radius": "10px",      
+                "color": "white",
+                "padding": "5px 5px",    
+                "min-width": "300px",
+                "max-width": "300px",
+                "hover-background-color": "#C0392B",
+                "hover-color": "white",
+                "pressed-background-color": "#A93226",
+                "pressed-color": "white", 
+                "disabled-background-color": "#CCCCCC",
+                "disabled-color": "#808080"
+            }
+        },
+        "test_button": {
+            "label": "Test",
+            "style": {
+                "background-color": "#28a745",
+                "border-radius": "10px",      
+                "color": "white",
+                "padding": "5px 5px",    
+                "min-width": "100px",
+                "max-width": "100px",
+                "hover-background-color": "#218838",
+                "hover-color": "white",
+                "pressed-background-color": "#1e7e34",
+                "pressed-color": "white", 
+                "disabled-background-color": "#CCCCCC",
+                "disabled-color": "#808080"
+            }
+        }
+    },
+    "log_box": {
+        "home": {
+            "placeholder": "Home logs will be displayed here...",
+            "style": {
+                "background-color": "#333333",
+                "border": "1px solid #6D6D6D",
+                "border-radius": "10px",
+                "font-size": "12px",
+                "font-family": "Consolas",
+                "color": "#FFFFFF",
+                "padding": "10px"
+            }
+        },
+        "tester": {
+            "placeholder": "Tester logs will be displayed here...",
+            "style": {
+                "background-color": "#333333",
+                "border": "1px solid #6D6D6D",
+                "border-radius": "10px",
+                "font-size": "12px",
+                "font-family": "Consolas",
+                "color": "#FFFFFF",
+                "padding": "10px"
+            }
+        }
+    },
+    "window": {
+        "title": "Valve Tester (two-valve system)",
+        "width": 800,
+        "height": 300
+    }
+}
