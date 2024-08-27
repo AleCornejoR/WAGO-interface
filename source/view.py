@@ -153,7 +153,7 @@ class View(QWidget):
     def setup_dropdowns(self):
         # Generate options for the dropdowns based on the number of valves
         num_valves = self.config.get("num_valves", 8)  # Default value is 8
-        valve_options = [str(i) for i in range(num_valves)]
+        valve_options = [str(i + 1) for i in range(num_valves)]
 
         # Clear existing options
         self.solution_valve_combobox.clear()
