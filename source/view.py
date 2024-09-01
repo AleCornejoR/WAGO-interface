@@ -11,7 +11,8 @@ from PyQt6.QtWidgets import (
     QFormLayout,
     QTextEdit,
 )
-from PyQt6.QtGui import QDoubleValidator, QIntValidator  # Import validators
+from PyQt6.QtGui import QDoubleValidator, QIntValidator, QIcon  # Import validators
+from PyQt6.QtCore import Qt
 import qtawesome as qta
 
 
@@ -30,7 +31,7 @@ class View(QWidget):
         )  # Default to 800 if not specified
         window_height = self.config["window"].get(
             "height", 400
-        )  # Default to 600 if not specified
+        )  # Default to 400 if not specified
         self.setFixedSize(window_width, window_height)
 
         # Create a tab widget
@@ -46,10 +47,15 @@ class View(QWidget):
         self.setup_tester_tab()
         self.tabs.addTab(self.tester_tab, self.config["tabs"]["tester_tab"]["name"])
 
+        # Create the manual tab
+        self.manual_tab = QWidget()
+        # self.setup_manual_tab()
+        self.tabs.addTab(self.manual_tab, self.config["tabs"]["manual_tab"]["name"])
+
         # Create the settings tab
-        # self.settings_tab = QWidget()
-        # self.setup_main_tab()
-        # self.tabs.addTab(self.settings_tab, self.config["tabs"]["settings_tab"]["name"])
+        self.settings_tab = QWidget()
+        # self.setup_settings_tab()
+        self.tabs.addTab(self.settings_tab, self.config["tabs"]["settings_tab"]["name"])
 
         # Main layout for the window
         window_layout = QVBoxLayout()
@@ -72,13 +78,13 @@ class View(QWidget):
         button_layout.addWidget(self.connect_button)
 
         # Botón de apagado de válvulas
-        self.poweroff_button = QPushButton(
-            self.config["buttons"]["poweroff_button"]["label"]
-        )
-        self.apply_button_styles(
-            self.poweroff_button, self.config["buttons"]["poweroff_button"]["style"]
-        )
-        button_layout.addWidget(self.poweroff_button)
+        # self.poweroff_button = QPushButton(
+        #     self.config["buttons"]["poweroff_button"]["label"]
+        # )
+        # self.apply_button_styles(
+        #     self.poweroff_button, self.config["buttons"]["poweroff_button"]["style"]
+        # )
+        # button_layout.addWidget(self.poweroff_button)
 
         # Añadir el layout de botones al layout principal
         layout.addLayout(button_layout)
@@ -95,6 +101,16 @@ class View(QWidget):
             self.home_log_box, self.config["log_box"]["home"]["style"]
         )
         layout.addWidget(self.home_log_box)
+
+        # Crear un QLabel para el mensaje
+        self.tab_message_label = QLabel(self.config["tabs"]["home_tab"]["tab_message"])
+        # Aplicar estilo en cursiva y alineación a la derecha
+        self.tab_message_label.setStyleSheet("font-style: italic;")  # Estilo en cursiva
+        self.tab_message_label.setAlignment(
+            Qt.AlignmentFlag.AlignRight
+        )  # Alinear el texto a la derecha
+
+        layout.addWidget(self.tab_message_label)
 
         self.home_tab.setLayout(layout)
 

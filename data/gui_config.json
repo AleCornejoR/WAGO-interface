@@ -2,11 +2,11 @@
     "num_valves": 16,
     "solution_valve": {
         "label": "Solution Valve:",
-        "default_value": "10"
+        "default_value": "9"
     },
     "gas_valve": {
         "label": "Gas Valve:",
-        "default_value": "9"
+        "default_value": "10"
     },
     "delays": {
         "pre_solution": {
@@ -40,13 +40,17 @@
     },
     "tabs": {
         "home_tab": {
-            "name": "Home"
+            "name": "Home",
+            "tab_message": "Created by Rafael Cornejo"
         },
         "tester_tab": {
             "name": "Tester"
         },
         "settings_tab": {
             "name": "Settings"
+        },
+        "manual_tab": {
+            "name": "Manual"
         }
     },
     "buttons": {
@@ -77,8 +81,8 @@
                 "border-radius": "10px",      
                 "color": "white",
                 "padding": "5px 5px",    
-                "min-width": "300px",
-                "max-width": "300px",
+                "min-width": "150px",
+                "max-width": "150px",
                 "hover-background-color": "#C0392B",
                 "hover-color": "white",
                 "pressed-background-color": "#A93226",
@@ -91,20 +95,20 @@
         "test_button": {
             "label": "  Test",
             "style": {
-                "icon": "ri.logout-circle-r-line",
+                "icon": "ph.telegram-logo-fill",
                 "background-color": "#28a745",
                 "border-radius": "10px",      
                 "color": "white",
                 "padding": "5px 5px",    
-                "min-width": "100px",
-                "max-width": "100px",
+                "min-width": "80px",
+                "max-width": "80px",
                 "hover-background-color": "#218838",
                 "hover-color": "white",
                 "pressed-background-color": "#1e7e34",
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
-                "default_state": "disabled"
+                "default_state": "enabled"
             }
         },
         "stop_button": {
@@ -129,33 +133,33 @@
     },
     "log_box": {
         "home": {
-            "placeholder": "Home logs will be displayed here...",
+            "placeholder": "Home logs will be displayed here... \nPress Connect to Start",
             "style": {
-                "background-color": "#333333",
+                "background-color": "#FCFCFC",
                 "border": "1px solid #6D6D6D",
                 "border-radius": "10px",
                 "font-size": "12px",
                 "font-family": "Consolas",
-                "color": "#FFFFFF",
+                "color": "#000000",
                 "padding": "10px"
             }
         },
         "tester": {
             "placeholder": "Tester logs will be displayed here...",
             "style": {
-                "background-color": "#333333",
+                "background-color": "#FCFCFC",
                 "border": "1px solid #6D6D6D",
                 "border-radius": "10px",
                 "font-size": "12px",
                 "font-family": "Consolas",
-                "color": "#FFFFFF",
+                "color": "#000000",
                 "padding": "10px"
             }
         }
     },
     "window": {
-        "title": "Valve Tester (two-valve system)",
+        "title": "WAGO interface v3.0",
         "width": 800,
-        "height": 300
+        "height": 500
     }
 }

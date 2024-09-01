@@ -1,19 +1,12 @@
 # LIBRERIES
-from pymodbus.client import ModbusTcpClient
+from pymodbus.client.sync import ModbusTcpClient
 
 
 # MODEL CLASS DEFINITION
 # source.model.py
 class Model:
     def __init__(self):
-        self.names = []
-
-    def add_name(self, name):
-        if name and name not in self.names:
-            self.names.append(name)
-
-    def get_names(self):
-        return self.names
+        pass
 
 
 # WAGO CLASS DEFINITION
@@ -26,6 +19,7 @@ class WagoPLC:
 
         self.coils = [actLow] * coils
         self.numcoils = coils
+        self.tester_index = 1
 
         self.VALVE_OPEN = not actLow
         self.VALVE_CLOSED = actLow

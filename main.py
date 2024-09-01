@@ -85,7 +85,7 @@ def main():
     virtual = settings.get("virtual", False)
 
     # Initialize the model, view, and controller
-    model = WagoPLC(ip, coils, actLow, virtual=virtual)
+    model = WagoPLC(ip, coils, actLow, virtual)
     view = View(config)
     controller = Controller(model, view)
 

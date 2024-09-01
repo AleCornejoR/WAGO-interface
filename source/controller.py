@@ -9,27 +9,27 @@ class Controller:
         self.view = view
 
         # Connect the view's buttons to their corresponding controller methods
-        self._connect_signals()
+        self.connect_signals()
 
         # Gather all buttons into a list for easier management
-        self.all_buttons = self._gather_buttons()
+        self.all_buttons = self.gather_buttons()
         self.home_log = self.view.home_log_box
         self.tester_log = self.view.tester_log_box
 
         # Initialize the user interface
         self.initUI()
 
-    def _connect_signals(self):
+    def connect_signals(self):
         """Connect the view's buttons to their corresponding controller methods."""
         self.view.test_button.clicked.connect(self.handle_test_button_click)
         self.view.connect_button.clicked.connect(self.handle_connect_button_click)
-        self.view.poweroff_button.clicked.connect(self.handle_poweroff_button_click)
+        # self.view.poweroff_button.clicked.connect(self.handle_poweroff_button_click)
 
-    def _gather_buttons(self):
+    def gather_buttons(self):
         """Collect all buttons from the view into a list."""
         return [
             self.view.connect_button,
-            self.view.poweroff_button,
+            # self.view.poweroff_button,
             self.view.test_button,
         ]
 
@@ -38,12 +38,12 @@ class Controller:
         Initialize the user interface by connecting input field signals to validation methods.
         """
         # Connect text change signals for delay input fields to the validation method
-        self._connect_delay_inputs()
+        self.connect_delay_inputs()
 
         # Connect the text change signal for the repetition input field to the validation method
         self.view.repetition_input.textChanged.connect(self.validate_inputs)
 
-    def _connect_delay_inputs(self):
+    def connect_delay_inputs(self):
         """
         Connect the text change signals of delay input fields to the validation method.
         """
@@ -57,9 +57,11 @@ class Controller:
         """
         # Log the initiation of the test
         print("Test button clicked!")
-        self.model.connection()
-        self._handle_connection_status()
-        self._log_message("[*] Initiating Test", self.tester_log)
+        # self.model.connection()
+        # self.handle_connection_status()
+        self.log_message(
+            f"[*] Initiating Test {self.model.tester_index}", self.tester_log
+        )
 
         # Retrieve values from the tester layout
         repetitions = int(self.view.get_tester_value("repetition_num"))
@@ -75,12 +77,22 @@ class Controller:
         solution_valve = int(self.view.get_tester_value("solution_valve")) - 1
 
         # Execute the sequence of actions
-        for _ in range(repetitions):
-            self._perform_test_cycle(air_valve, solution_valve, delays)
+        # for _ in range(repetitions):
+        #     self.perform_test_cycle(air_valve, solution_valve, delays)
 
-        self._log_message("[+] Test completed without error\n", self.tester_log)
+        # Prepare the completion message with detailed info
+        completion_message = (
+            f"[+] Test {self.model.tester_index} completed without error\n"
+            f"[>] sol_valve: {solution_valve}, gas_valve: {air_valve}\n"
+            f"[>] {delays['pre_solution']}, {delays['solution']}, "
+            f"{delays['pos_solution']}\n"
+        )
 
-    def _perform_test_cycle(self, air_valve, solution_valve, delays):
+        self.model.tester_index += 1
+
+        self.log_message(completion_message, self.tester_log)
+
+    def perform_test_cycle(self, air_valve, solution_valve, delays):
         """
         Perform a single test cycle based on the provided valve settings and delays.
 
@@ -107,30 +119,30 @@ class Controller:
         # Disable all buttons during connection attempt
         self.set_buttons(self.all_buttons, False)
         print("Connect button clicked!")
-        self._log_message(
+        self.log_message(
             f"[*] Trying to connect to WAGO at IP {self.model.ip}...",
             self.home_log,
         )
 
         # Attempt to establish a connection
         self.model.connection()
-        self._handle_connection_status()
+        self.handle_connection_status()
 
         # Re-enable the 'Connect' button
         self.view.connect_button.setEnabled(True)
 
-    def _handle_connection_status(self):
+    def handle_connection_status(self):
         """
         Handle the outcome of the connection attempt based on the model's connection status.
         """
         if self.model.connection_status == "FAIL":
             self.set_buttons(self.all_buttons, False)
-            self._log_message(
+            self.log_message(
                 f"[!] Could not connect to WAGO at IP {self.model.ip}! Double-check IP address and connections.\n",
                 self.home_log,
             )
         elif self.model.connection_status == "SUCCESS":
-            self._log_message(f"[+] WAGO connected.", self.home_log)
+            self.log_message(f"[+] WAGO connected.", self.home_log)
             self.set_buttons(self.all_buttons, True)
 
             self._initialize_valves()
@@ -139,9 +151,9 @@ class Controller:
         """
         Reset and initialize the valves after a successful connection.
         """
-        self._log_message("[*] Setting valves.", self.home_log)
+        self.log_message("[*] Setting valves.", self.home_log)
         self.model.resetValves()
-        self._log_message("[+] Valves set.\n", self.home_log)
+        self.log_message("[+] Valves set.\n", self.home_log)
 
     def handle_poweroff_button_click(self):
         """
@@ -151,7 +163,7 @@ class Controller:
 
         # Attempt to connect to the model
         self.model.connection()
-        self._handle_connection_status()
+        self.handle_connection_status()
 
         # Shut down the valves
         self._shutdown_valves()
@@ -160,11 +172,11 @@ class Controller:
         """
         Shut down the valves and log the operation.
         """
-        self._log_message("[*] Shutting down valves", self.home_log)
+        self.log_message("[*] Shutting down valves", self.home_log)
         self.model.resetValvesN()
-        self._log_message("[+] Valves Off\n", self.home_log)
+        self.log_message("[+] Valves Off\n", self.home_log)
 
-    def _log_message(self, message, log_box):
+    def log_message(self, message, log_box):
         """
         Update the specified log box with a new message and scroll to the bottom.
 
