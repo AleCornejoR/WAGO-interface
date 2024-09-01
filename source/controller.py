@@ -139,9 +139,9 @@ class Controller:
         """
         Reset and initialize the valves after a successful connection.
         """
-        self.__log_message("[*] Setting valves.", self.home_log)
+        self._log_message("[*] Setting valves.", self.home_log)
         self.model.resetValves()
-        self.__log_message("[+] Valves set.\n", self.home_log)
+        self._log_message("[+] Valves set.\n", self.home_log)
 
     def handle_poweroff_button_click(self):
         """
@@ -207,19 +207,19 @@ class Controller:
         Validate all input fields to ensure they are filled with valid values.
         """
         # Check if all delay input fields have valid values
-        if not self._validate_delay_inputs():
+        if not self.validate_delay_inputs():
             self.view.test_button.setEnabled(False)
             return
 
         # Check if the repetition input field has a valid value
-        if not self._validate_repetition_input():
+        if not self.validate_repetition_input():
             self.view.test_button.setEnabled(False)
             return
 
         # Enable the 'Test' button if all inputs are valid
         self.view.test_button.setEnabled(True)
 
-    def _validate_delay_inputs(self):
+    def validate_delay_inputs(self):
         """
         Validate delay input fields to ensure they have positive values.
 
@@ -233,7 +233,7 @@ class Controller:
                 return False
         return True
 
-    def _validate_repetition_input(self):
+    def validate_repetition_input(self):
         """
         Validate the repetition input field to ensure it has a positive value.
 
