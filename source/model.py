@@ -1,5 +1,5 @@
 # LIBRERIES
-from pymodbus.client.sync import ModbusTcpClient
+from pymodbus.client import ModbusTcpClient
 
 
 # MODEL CLASS DEFINITION

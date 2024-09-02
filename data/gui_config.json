@@ -121,13 +121,50 @@
                 "padding": "5px 5px",    
                 "min-width": "300px",
                 "max-width": "300px",
-                "hover-background-color": "#C0392B",
+                "hover-background-color": "#1976D2",
                 "hover-color": "white",
                 "pressed-background-color": "#A93226",
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
                 "default_state": "enabled"
+            }
+        },
+        "valve_manual_button": {
+            "label": "",
+            "style": {
+                "icon": "mdi6.pipe-valve",
+                "background-color": "#2196F3",
+                "border-radius": "10px",      
+                "color": "white",
+                "padding": "5px 5px",    
+                "min-width": "100px",
+                "max-width": "100px",
+                "hover-background-color": "#1976D2",
+                "hover-color": "white",
+                "pressed-background-color": "#0D47A1",
+                "pressed-color": "white", 
+                "disabled-background-color": "#CCCCCC",
+                "disabled-color": "#808080",
+                "default_state": "enabled"
+            }
+        },
+        "led_button": {
+            "label": "",
+            "style": {
+                "icon-on": "mdi.lightbulb-cfl",
+                "icon-off": "mdi.lightbulb-cfl-off",
+                "icon-color-on": "white",
+                "icon-color-off": "gray",
+                "background-color-on": "#0be81b",
+                "background-color-off": "darkgray",
+                "border": "none",
+                "border-radius": "15px",        
+                "button-width": 30,
+                "button-height": 30,
+                "icon-width": 25,
+                "icon-height": 25,
+                "default-state": "off"
             }
         }
     },

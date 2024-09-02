@@ -12,7 +12,7 @@ from PyQt6.QtWidgets import (
     QTextEdit,
 )
 from PyQt6.QtGui import QDoubleValidator, QIntValidator, QIcon  # Import validators
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QSize
 import qtawesome as qta
 
 
@@ -169,14 +169,39 @@ class View(QWidget):
     def setup_manual_tab(self):
         # Main layout for the tab
         self.manual_layout = QHBoxLayout(self.manual_tab)
-        self.create_manual_buttons(self.config)
+        self.create_manual_buttons()
 
     def setup_settings_tab(self):
         # Main layout for the tab
         self.settings_layout = QHBoxLayout(self.settings_tab)
 
-    def create_manual_buttons(self, config):
-        pass
+    def create_manual_buttons(self):
+        self.unit_IO1 = QVBoxLayout()
+
+        # Button per valve in the system
+        self.valve_manual_button_layout = QHBoxLayout()
+
+        # "Valve" button for manual mode
+        self.toggle_valve_button = QPushButton("Valve 1")
+        self.apply_button_styles(
+            self.toggle_valve_button,
+            self.config["buttons"]["valve_manual_button"]["style"],
+        )
+
+        # "led" button
+        self.led_button = QPushButton()
+        self.apply_button_styles_led(
+            self.led_button,
+            self.config["buttons"]["led_button"]["style"],
+            self.config["buttons"]["led_button"]["style"]["default-state"],
+        )
+
+        self.valve_manual_button_layout.addWidget(self.toggle_valve_button)
+        self.valve_manual_button_layout.addWidget(self.led_button)
+
+        self.unit_IO1.addLayout(self.valve_manual_button_layout)
+
+        self.manual_layout.addLayout(self.unit_IO1)
 
     def setup_dropdowns(self):
         # Generate options for the dropdowns based on the number of valves
@@ -305,6 +330,52 @@ class View(QWidget):
             button.setDisabled(True)
         else:
             button.setDisabled(False)
+
+    def apply_button_styles_led(self, button, style_config, state):
+        icon_on = style_config["icon-on"]
+        icon_off = style_config["icon-off"]
+        icon_color_on = style_config["icon-color-on"]
+        icon_color_off = style_config["icon-color-off"]
+
+        background_color_on = style_config["background-color-on"]
+        background_color_off = style_config["background-color-off"]
+
+        border = style_config["border"]
+        border_radius = style_config["border-radius"]
+
+        button_height = style_config["button-height"]
+        button_width = style_config["button-width"]
+
+        icon_height = style_config["icon-height"]
+        icon_width = style_config["icon-width"]
+
+        button.setFixedSize(button_height, button_width)  # Tamaño del botón
+        button.setIconSize(QSize(icon_height, icon_width))  # Tamaño del icono
+
+        # Configurar el estado del botón (habilitado o deshabilitado) basado en el estado predeterminado
+        if state == "on":
+            button.setIcon(qta.icon(icon_on, color=icon_color_on))
+
+            # Crear la cadena de estilo CSS
+            style_sheet = f"""
+                QPushButton {{
+                    border-radius: {border_radius};  /* Establece las esquinas redondeadas */
+                    border: {border}; /* Sin borde */
+                    background-color: {background_color_on};  /* Color de fondo */
+                }}
+            """
+        else:
+            button.setIcon(qta.icon(icon_off, color=icon_color_off))
+            style_sheet = f"""
+                QPushButton {{
+                    border-radius: {border_radius};  /* Establece las esquinas redondeadas */
+                    border: {border}; /* Sin borde */
+                    background-color: {background_color_off};  /* Color de fondo */
+                }}
+            """
+
+        # Aplicar el estilo al botón
+        button.setStyleSheet(style_sheet)
 
     def apply_text_box_styles(self, text_box, style_config):
         style_sheet = f"""
