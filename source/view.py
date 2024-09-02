@@ -176,62 +176,76 @@ class View(QWidget):
         self.settings_layout = QHBoxLayout(self.settings_tab)
 
     def create_manual_buttons(self):
-        self.manual_unit_IO1 = QVBoxLayout()
+        num_valves = self.config["num_valves"]  # Número total de válvulas
+        valves_per_group = self.config[
+            "valves_per_unit_manual"
+        ]  # Número de válvulas por grupo (manual_unit_IOx)
 
-        # Button per valve in the system
-        self.valve_manual_button_layout = QVBoxLayout()
-        self.valve_manual_button_toggle_layout = QHBoxLayout()
-        self.valve_manual_button_timer_layout = QHBoxLayout()
+        # Crear una lista para almacenar los layouts de cada grupo
+        self.manual_unit_IOs = []
 
-        # "Valve" button for manual mode
-        self.toggle_valve_button = QPushButton("Valve 1")
-        self.apply_button_styles(
-            self.toggle_valve_button,
-            self.config["buttons"]["valve_manual_button"]["style"],
-        )
+        for i in range(0, num_valves, valves_per_group):
+            # Crear un nuevo QVBoxLayout para cada grupo de 8 válvulas
+            manual_unit_IO = QVBoxLayout()
 
-        # "led" button
-        self.led_button = QPushButton()
-        self.apply_button_styles_led(
-            self.led_button,
-            self.config["buttons"]["led_button"]["style"],
-            self.config["buttons"]["led_button"]["style"]["default-state"],
-        )
+            # Crear y configurar los widgets para las válvulas en este grupo
+            for j in range(i, min(i + valves_per_group, num_valves)):
+                valve_index = j + 1  # Índice de la válvula (1-based)
+                valve_manual_button_layout = QVBoxLayout()
+                valve_manual_button_toggle_layout = QHBoxLayout()
+                valve_manual_button_timer_layout = QHBoxLayout()
 
-        self.valve_manual_button_toggle_layout.addWidget(self.toggle_valve_button)
-        self.valve_manual_button_toggle_layout.addWidget(self.led_button)
+                # Crear botón de toggle para la válvula
+                toggle_valve_button = QPushButton(f"Valve {valve_index}")
+                self.apply_button_styles(
+                    toggle_valve_button,
+                    self.config["buttons"]["valve_manual_button"]["style"],
+                )
 
-        # Validators
-        float_validator = QDoubleValidator()
-        float_validator.setBottom(
-            0.01
-        )  # Configura el límite inferior para los valores flotantes
+                # Crear botón LED
+                led_button = QPushButton()
+                self.apply_button_styles_led(
+                    led_button,
+                    self.config["buttons"]["led_button"]["style"],
+                    self.config["buttons"]["led_button"]["style"]["default-state"],
+                )
 
-        self.timer_manua_imput_field = QLineEdit()
-        self.timer_manua_imput_field.setValidator(float_validator)
-        self.timer_manua_imput_field.setText(
-            self.config["timer_manual"]["default-value"]
-        )
-        self.timer_manua_imput_field.setFixedWidth(self.config["timer_manual"]["width"])
+                valve_manual_button_toggle_layout.addWidget(toggle_valve_button)
+                valve_manual_button_toggle_layout.addWidget(led_button)
 
-        # "Test" button for manual tab with timer
-        self.test_manual_button = QPushButton()
-        self.apply_button_styles(
-            self.test_manual_button,
-            self.config["buttons"]["test_manual_button"]["style"],
-        )
+                # Crear campo de entrada para el temporizador
+                float_validator = QDoubleValidator()
+                float_validator.setBottom(0.01)
 
-        self.valve_manual_button_timer_layout.addWidget(self.timer_manua_imput_field)
-        self.valve_manual_button_timer_layout.addWidget(self.test_manual_button)
+                timer_input_field = QLineEdit()
+                timer_input_field.setValidator(float_validator)
+                timer_input_field.setText(self.config["timer_manual"]["default-value"])
+                timer_input_field.setFixedWidth(self.config["timer_manual"]["width"])
 
-        self.valve_manual_button_layout.addLayout(
-            self.valve_manual_button_toggle_layout
-        )
-        self.valve_manual_button_layout.addLayout(self.valve_manual_button_timer_layout)
+                # Crear botón de prueba
+                test_manual_button = QPushButton()
+                self.apply_button_styles(
+                    test_manual_button,
+                    self.config["buttons"]["test_manual_button"]["style"],
+                )
 
-        self.manual_unit_IO1.addLayout(self.valve_manual_button_layout)
+                valve_manual_button_timer_layout.addWidget(timer_input_field)
+                valve_manual_button_timer_layout.addWidget(test_manual_button)
 
-        self.manual_layout.addLayout(self.manual_unit_IO1)
+                valve_manual_button_layout.addLayout(valve_manual_button_toggle_layout)
+                valve_manual_button_layout.addLayout(valve_manual_button_timer_layout)
+
+                manual_unit_IO.addLayout(valve_manual_button_layout)
+
+                # Almacenar las referencias de los widgets en la clase
+                setattr(self, f"toggle_valve_button_{valve_index}", toggle_valve_button)
+                setattr(self, f"led_button_{valve_index}", led_button)
+                setattr(self, f"timer_input_field_{valve_index}", timer_input_field)
+                setattr(self, f"test_manual_button_{valve_index}", test_manual_button)
+
+            # Agregar el layout del grupo al layout general
+            self.manual_unit_IOs.append(manual_unit_IO)
+            self.manual_layout.addLayout(manual_unit_IO)
 
     def setup_dropdowns(self):
         # Generate options for the dropdowns based on the number of valves
@@ -383,7 +397,7 @@ class View(QWidget):
         button.setIconSize(QSize(icon_height, icon_width))  # Tamaño del icono
 
         # Configurar el estado del botón (habilitado o deshabilitado) basado en el estado predeterminado
-        if state == "on":
+        if state:
             button.setIcon(qta.icon(icon_on, color=icon_color_on))
 
             # Crear la cadena de estilo CSS

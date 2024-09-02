@@ -22,20 +22,48 @@ class Controller:
     def connect_signals(self):
         """Connect the view's buttons to their corresponding controller methods."""
         self.view.test_button.clicked.connect(self.handle_test_button_click)
+        print("1 connected")
         self.view.connect_button.clicked.connect(self.handle_connect_button_click)
+        print("2 connected")
         # self.view.poweroff_button.clicked.connect(self.handle_poweroff_button_click)
 
-        self.view.toggle_valve_button.clicked.connect(
-            self.handle_toogle_valve_button_click
-        )
+        self.connect_valve_buttons()
+
+    def connect_valve_buttons(self):
+        print("connecting valves")
+        num_valves = self.view.config["num_valves"]  # Número total de válvulas
+
+        for i in range(1, num_valves + 1):
+            # Obtener la referencia al botón usando getattr
+            toggle_valve_button = getattr(self.view, f"toggle_valve_button_{i}")
+
+            # Conectar el botón a la función con un lambda que captura el valor de `i-1` para `coil`
+            toggle_valve_button.clicked.connect(
+                lambda checked, coil=i - 1: self.handle_toogle_valve_button_click(coil)
+            )
+            print(f"manual toggle {i} connected")
 
     def gather_buttons(self):
-        """Collect all buttons from the view into a list."""
-        return [
+        """Collect all buttons from the view into a list, including those in the manual tab."""
+        buttons = [
             self.view.connect_button,
             # self.view.poweroff_button,
             self.view.test_button,
         ]
+
+        # Recopilar todos los botones manuales de las válvulas
+        num_valves = self.view.config["num_valves"]
+        for i in range(1, num_valves + 1):
+            toggle_valve_button = getattr(self.view, f"toggle_valve_button_{i}")
+            buttons.append(toggle_valve_button)
+
+            led_button = getattr(self.view, f"led_button_{i}")
+            buttons.append(led_button)
+
+            test_manual_button = getattr(self.view, f"test_manual_button_{i}")
+            buttons.append(test_manual_button)
+
+        return buttons
 
     def initUI(self):
         """
@@ -61,8 +89,8 @@ class Controller:
         """
         # Log the initiation of the test
         print("Test button clicked!")
-        # self.model.connection()
-        # self.handle_connection_status()
+        self.wago_connection_set()
+
         self.log_message(
             f"[*] Initiating Test {self.model.tester_index}", self.tester_log
         )
@@ -80,9 +108,19 @@ class Controller:
         air_valve = int(self.get_tester_value("air_valve")) - 1
         solution_valve = int(self.get_tester_value("solution_valve")) - 1
 
+        # Restablecer todos los LEDs a apagado
+        num_valves = self.view.config["num_valves"]
+        for i in range(1, num_valves + 1):
+            led_button = getattr(self.view, f"led_button_{i}")
+            self.view.apply_button_styles_led(
+                led_button,
+                self.view.config["buttons"]["led_button"]["style"],
+                False,  # Configurar como apagado
+            )
+
         # Execute the sequence of actions
-        # for _ in range(repetitions):
-        #     self.perform_test_cycle(air_valve, solution_valve, delays)
+        for _ in range(repetitions):
+            self.perform_test_cycle(air_valve, solution_valve, delays)
 
         # Prepare the completion message with detailed info
         completion_message = (
@@ -129,8 +167,7 @@ class Controller:
         )
 
         # Attempt to establish a connection
-        self.model.connection()
-        self.handle_connection_status()
+        self.wago_connection_set()
 
         # Re-enable the 'Connect' button
         self.view.connect_button.setEnabled(True)
@@ -166,17 +203,23 @@ class Controller:
         print("Poweroff button clicked!")
 
         # Attempt to connect to the model
-        self.model.connection()
-        self.handle_connection_status()
+        self.wago_connection_set()
 
         # Shut down the valves
         self._shutdown_valves()
 
-    def handle_toogle_valve_button_click(self):
+    def handle_toogle_valve_button_click(self, coil):
+        # Actualizar el estado de la válvula en el modelo
+        self.model.setValve(coil, not self.model.coils[coil])
+
+        # Obtener el botón LED correspondiente usando el índice de la válvula
+        led_button = getattr(self.view, f"led_button_{coil + 1}")
+
+        # Aplicar los estilos del botón LED basado en el nuevo estado de la válvula
         self.view.apply_button_styles_led(
-            self.view.led_button,
+            led_button,
             self.view.config["buttons"]["led_button"]["style"],
-            "on",
+            self.model.coils[coil],
         )
 
     def _shutdown_valves(self):
@@ -286,3 +329,8 @@ class Controller:
             return field_mapping[key]()
         else:
             raise ValueError(f"Unknown key: {key}")
+
+    def wago_connection_set(self):
+        self.model.connection()
+        self.handle_connection_status()
+        sleep(0.5)

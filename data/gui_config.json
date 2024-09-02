@@ -1,5 +1,6 @@
 {
     "num_valves": 16,
+    "valves_per_unit_manual": 4,
     "solution_valve": {
         "label": "Solution Valve:",
         "default_value": "9"
@@ -101,7 +102,7 @@
         "test_button": {
             "label": "  Test",
             "style": {
-                "icon": "ph.telegram-logo-fill",
+                "icon": "fa5b.telegram-plane",
                 "background-color": "#28a745",
                 "border-radius": "10px",      
                 "color": "white",
@@ -120,7 +121,8 @@
         "test_manual_button": {
             "label": "",
             "style": {
-                "icon": "ph.telegram-logo-fill",
+                "icon": "fa5b.telegram-plane", 
+                "second-icon": "ph.telegram-logo-fill",
                 "background-color": "#28a745",
                 "border-radius": "10px",      
                 "color": "white",
@@ -177,8 +179,8 @@
         "led_button": {
             "label": "",
             "style": {
-                "icon-on": "mdi.lightbulb-cfl",
-                "icon-off": "mdi.lightbulb-cfl-off",
+                "icon-on": "mdi.lightbulb-cfl-spiral",
+                "icon-off": "mdi.lightbulb-cfl-spiral-off",
                 "icon-color-on": "white",
                 "icon-color-off": "gray",
                 "background-color-on": "#0be81b",
@@ -189,7 +191,7 @@
                 "button-height": 30,
                 "icon-width": 25,
                 "icon-height": 25,
-                "default-state": "off"
+                "default-state": false
             }
         }
     },
