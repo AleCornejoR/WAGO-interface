@@ -49,12 +49,12 @@ class View(QWidget):
 
         # Create the manual tab
         self.manual_tab = QWidget()
-        # self.setup_manual_tab()
+        self.setup_manual_tab()
         self.tabs.addTab(self.manual_tab, self.config["tabs"]["manual_tab"]["name"])
 
         # Create the settings tab
         self.settings_tab = QWidget()
-        # self.setup_settings_tab()
+        self.setup_settings_tab()
         self.tabs.addTab(self.settings_tab, self.config["tabs"]["settings_tab"]["name"])
 
         # Main layout for the window
@@ -165,6 +165,18 @@ class View(QWidget):
 
         # Add the right layout to the main layout
         self.tester_layout.addLayout(self.right_layout)
+
+    def setup_manual_tab(self):
+        # Main layout for the tab
+        self.manual_layout = QHBoxLayout(self.manual_tab)
+        self.create_manual_buttons(self.config)
+
+    def setup_settings_tab(self):
+        # Main layout for the tab
+        self.settings_layout = QHBoxLayout(self.settings_tab)
+
+    def create_manual_buttons(self, config):
+        pass
 
     def setup_dropdowns(self):
         # Generate options for the dropdowns based on the number of valves

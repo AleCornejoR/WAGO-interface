@@ -108,7 +108,7 @@
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
-                "default_state": "enabled"
+                "default_state": "disabled"
             }
         },
         "stop_button": {
