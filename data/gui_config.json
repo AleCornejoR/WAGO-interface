@@ -30,6 +30,12 @@
             "type": "float"
         }
     },
+    "timer_manual":{
+        "label": "",
+        "default-value": "0.5",
+        "type": "float",
+        "width": 100
+    },
     "repetition_num": {
         "label": "Repetition times:",
         "default_value": "1",
@@ -111,6 +117,25 @@
                 "default_state": "disabled"
             }
         },
+        "test_manual_button": {
+            "label": "",
+            "style": {
+                "icon": "ph.telegram-logo-fill",
+                "background-color": "#28a745",
+                "border-radius": "10px",      
+                "color": "white",
+                "padding": "5px 0px",    
+                "min-width": "30px",
+                "max-width": "30px",
+                "hover-background-color": "#218838",
+                "hover-color": "white",
+                "pressed-background-color": "#1e7e34",
+                "pressed-color": "white", 
+                "disabled-background-color": "#CCCCCC",
+                "disabled-color": "#808080",
+                "default_state": "disabled"
+            }
+        },
         "stop_button": {
             "label": "  Stop",
             "style": {
@@ -138,15 +163,15 @@
                 "border-radius": "10px",      
                 "color": "white",
                 "padding": "5px 5px",    
-                "min-width": "100px",
-                "max-width": "100px",
+                "min-width": "90px",
+                "max-width": "90px",
                 "hover-background-color": "#1976D2",
                 "hover-color": "white",
                 "pressed-background-color": "#0D47A1",
                 "pressed-color": "white", 
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
-                "default_state": "enabled"
+                "default_state": "disabled"
             }
         },
         "led_button": {

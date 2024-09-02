@@ -176,10 +176,12 @@ class View(QWidget):
         self.settings_layout = QHBoxLayout(self.settings_tab)
 
     def create_manual_buttons(self):
-        self.unit_IO1 = QVBoxLayout()
+        self.manual_unit_IO1 = QVBoxLayout()
 
         # Button per valve in the system
-        self.valve_manual_button_layout = QHBoxLayout()
+        self.valve_manual_button_layout = QVBoxLayout()
+        self.valve_manual_button_toggle_layout = QHBoxLayout()
+        self.valve_manual_button_timer_layout = QHBoxLayout()
 
         # "Valve" button for manual mode
         self.toggle_valve_button = QPushButton("Valve 1")
@@ -196,12 +198,40 @@ class View(QWidget):
             self.config["buttons"]["led_button"]["style"]["default-state"],
         )
 
-        self.valve_manual_button_layout.addWidget(self.toggle_valve_button)
-        self.valve_manual_button_layout.addWidget(self.led_button)
+        self.valve_manual_button_toggle_layout.addWidget(self.toggle_valve_button)
+        self.valve_manual_button_toggle_layout.addWidget(self.led_button)
 
-        self.unit_IO1.addLayout(self.valve_manual_button_layout)
+        # Validators
+        float_validator = QDoubleValidator()
+        float_validator.setBottom(
+            0.01
+        )  # Configura el límite inferior para los valores flotantes
 
-        self.manual_layout.addLayout(self.unit_IO1)
+        self.timer_manua_imput_field = QLineEdit()
+        self.timer_manua_imput_field.setValidator(float_validator)
+        self.timer_manua_imput_field.setText(
+            self.config["timer_manual"]["default-value"]
+        )
+        self.timer_manua_imput_field.setFixedWidth(self.config["timer_manual"]["width"])
+
+        # "Test" button for manual tab with timer
+        self.test_manual_button = QPushButton()
+        self.apply_button_styles(
+            self.test_manual_button,
+            self.config["buttons"]["test_manual_button"]["style"],
+        )
+
+        self.valve_manual_button_timer_layout.addWidget(self.timer_manua_imput_field)
+        self.valve_manual_button_timer_layout.addWidget(self.test_manual_button)
+
+        self.valve_manual_button_layout.addLayout(
+            self.valve_manual_button_toggle_layout
+        )
+        self.valve_manual_button_layout.addLayout(self.valve_manual_button_timer_layout)
+
+        self.manual_unit_IO1.addLayout(self.valve_manual_button_layout)
+
+        self.manual_layout.addLayout(self.manual_unit_IO1)
 
     def setup_dropdowns(self):
         # Generate options for the dropdowns based on the number of valves
@@ -406,20 +436,3 @@ class View(QWidget):
         """
 
         text_box.setStyleSheet(style_sheet)
-
-    def get_tester_value(self, key):
-        # Mapear las claves a los métodos correspondientes
-        field_mapping = {
-            "repetition_num": lambda: int(self.repetition_input.text()),
-            "pre_solution": lambda: float(self.pre_solution_input.text()),
-            "solution": lambda: float(self.solution_input.text()),
-            "pos_solution": lambda: float(self.pos_solution_input.text()),
-            "between_repetition": lambda: float(self.between_repetition_input.text()),
-            "air_valve": lambda: int(self.gas_valve_combobox.currentText()),
-            "solution_valve": lambda: int(self.solution_valve_combobox.currentText()),
-        }
-
-        if key in field_mapping:
-            return field_mapping[key]()
-        else:
-            raise ValueError(f"Unknown key: {key}")

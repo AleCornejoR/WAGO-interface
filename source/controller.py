@@ -25,6 +25,10 @@ class Controller:
         self.view.connect_button.clicked.connect(self.handle_connect_button_click)
         # self.view.poweroff_button.clicked.connect(self.handle_poweroff_button_click)
 
+        self.view.toggle_valve_button.clicked.connect(
+            self.handle_toogle_valve_button_click
+        )
+
     def gather_buttons(self):
         """Collect all buttons from the view into a list."""
         return [
@@ -64,17 +68,17 @@ class Controller:
         )
 
         # Retrieve values from the tester layout
-        repetitions = int(self.view.get_tester_value("repetition_num"))
+        repetitions = int(self.get_tester_value("repetition_num"))
         delays = {
-            "pre_solution": float(self.view.get_tester_value("pre_solution")),
-            "solution": float(self.view.get_tester_value("solution")),
-            "pos_solution": float(self.view.get_tester_value("pos_solution")),
-            "between_rep": float(self.view.get_tester_value("between_repetition")),
+            "pre_solution": float(self.get_tester_value("pre_solution")),
+            "solution": float(self.get_tester_value("solution")),
+            "pos_solution": float(self.get_tester_value("pos_solution")),
+            "between_rep": float(self.get_tester_value("between_repetition")),
         }
 
         # Define the valves
-        air_valve = int(self.view.get_tester_value("air_valve")) - 1
-        solution_valve = int(self.view.get_tester_value("solution_valve")) - 1
+        air_valve = int(self.get_tester_value("air_valve")) - 1
+        solution_valve = int(self.get_tester_value("solution_valve")) - 1
 
         # Execute the sequence of actions
         # for _ in range(repetitions):
@@ -168,6 +172,13 @@ class Controller:
         # Shut down the valves
         self._shutdown_valves()
 
+    def handle_toogle_valve_button_click(self):
+        self.view.apply_button_styles_led(
+            self.view.led_button,
+            self.view.config["buttons"]["led_button"]["style"],
+            "on",
+        )
+
     def _shutdown_valves(self):
         """
         Shut down the valves and log the operation.
@@ -254,3 +265,24 @@ class Controller:
         """
         repetition_value = self.view.repetition_input.text().strip()
         return bool(repetition_value) and int(repetition_value) > 0
+
+    def get_tester_value(self, key):
+        # Mapear las claves a los métodos correspondientes
+        field_mapping = {
+            "repetition_num": lambda: int(self.view.repetition_input.text()),
+            "pre_solution": lambda: float(self.view.pre_solution_input.text()),
+            "solution": lambda: float(self.view.solution_input.text()),
+            "pos_solution": lambda: float(self.view.pos_solution_input.text()),
+            "between_repetition": lambda: float(
+                self.view.between_repetition_input.text()
+            ),
+            "air_valve": lambda: int(self.view.gas_valve_combobox.currentText()),
+            "solution_valve": lambda: int(
+                self.view.solution_valve_combobox.currentText()
+            ),
+        }
+
+        if key in field_mapping:
+            return field_mapping[key]()
+        else:
+            raise ValueError(f"Unknown key: {key}")
