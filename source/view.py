@@ -17,9 +17,10 @@ import qtawesome as qta
 
 
 class View(QWidget):
-    def __init__(self, config=None):
+    def __init__(self, config=None, settings=None):
         super().__init__()
         self.config = config
+        self.settings = settings
         self.initUI()
 
     def initUI(self):
@@ -57,6 +58,11 @@ class View(QWidget):
         self.setup_settings_tab()
         self.tabs.addTab(self.settings_tab, self.config["tabs"]["settings_tab"]["name"])
 
+        # Create the log tab
+        self.log_tab = QWidget()
+        self.setup_log_tab()
+        self.tabs.addTab(self.log_tab, self.config["tabs"]["log_tab"]["name"])
+
         # Main layout for the window
         window_layout = QVBoxLayout()
         window_layout.addWidget(self.tabs)
@@ -73,7 +79,8 @@ class View(QWidget):
             self.config["buttons"]["connect_button"]["label"]
         )
         self.apply_button_styles(
-            self.connect_button, self.config["buttons"]["connect_button"]["style"]
+            self.connect_button,
+            self.config["buttons"]["connect_button"]["style"]["light"],
         )
         button_layout.addWidget(self.connect_button)
 
@@ -102,21 +109,11 @@ class View(QWidget):
         )
         layout.addWidget(self.home_log_box)
 
-        # Crear un QLabel para el mensaje
-        self.tab_message_label = QLabel(self.config["tabs"]["home_tab"]["tab_message"])
-        # Aplicar estilo en cursiva y alineación a la derecha
-        self.tab_message_label.setStyleSheet("font-style: italic;")  # Estilo en cursiva
-        self.tab_message_label.setAlignment(
-            Qt.AlignmentFlag.AlignRight
-        )  # Alinear el texto a la derecha
-
-        layout.addWidget(self.tab_message_label)
-
         self.home_tab.setLayout(layout)
 
     def setup_tester_tab(self):
         # Main layout for the tab
-        self.tester_layout = QHBoxLayout(self.tester_tab)
+        tester_layout = QHBoxLayout(self.tester_tab)
 
         # Layout for information input fields on the left
         self.form_layout = QFormLayout()
@@ -138,7 +135,7 @@ class View(QWidget):
         self.create_input_fields()
 
         # Add the form layout to the left
-        self.tester_layout.addLayout(self.form_layout)
+        tester_layout.addLayout(self.form_layout)
 
         # Layout for the image and button on the right
         self.right_layout = QVBoxLayout()
@@ -164,18 +161,51 @@ class View(QWidget):
         self.right_layout.addWidget(self.test_button)
 
         # Add the right layout to the main layout
-        self.tester_layout.addLayout(self.right_layout)
+        tester_layout.addLayout(self.right_layout)
 
     def setup_manual_tab(self):
         # Main layout for the tab
-        self.manual_layout = QHBoxLayout(self.manual_tab)
-        self.create_manual_buttons()
+        manual_layout = QHBoxLayout(self.manual_tab)
+        self.create_manual_buttons(manual_layout)
 
     def setup_settings_tab(self):
         # Main layout for the tab
-        self.settings_layout = QHBoxLayout(self.settings_tab)
+        settings_layout = QHBoxLayout(self.settings_tab)
 
-    def create_manual_buttons(self):
+        # Crear un QLabel para el mensaje
+        self.author_message_label = QLabel(
+            self.config["tabs"]["settings_tab"]["author_message"]
+        )
+        # Aplicar estilo en cursiva y alineación a la derecha
+        self.author_message_label.setStyleSheet(
+            "font-style: italic;"
+        )  # Estilo en cursiva
+        self.author_message_label.setAlignment(
+            Qt.AlignmentFlag.AlignRight
+        )  # Alinear el texto a la derecha
+
+        settings_layout.addWidget(self.author_message_label)
+
+    def setup_log_tab(self):
+        # Log layout for the tab
+        log_layout = QHBoxLayout(self.log_tab)
+
+        # Cuadro de texto para logs
+        self.log_log_box = QTextEdit()
+        self.log_log_box.setPlaceholderText(
+            self.config["log_box"]["log"]["placeholder"]
+        )
+        self.log_log_box.setReadOnly(
+            True
+        )  # Hacer que el cuadro de texto sea de solo lectura
+        self.apply_text_box_styles(
+            self.log_log_box, self.config["log_box"]["log"]["style"]
+        )
+        log_layout.addWidget(self.log_log_box)
+
+        self.log_tab.setLayout(log_layout)
+
+    def create_manual_buttons(self, layout):
         num_valves = self.config["num_valves"]  # Número total de válvulas
         valves_per_group = self.config[
             "valves_per_unit_manual"
@@ -245,7 +275,7 @@ class View(QWidget):
 
             # Agregar el layout del grupo al layout general
             self.manual_unit_IOs.append(manual_unit_IO)
-            self.manual_layout.addLayout(manual_unit_IO)
+            layout.addLayout(manual_unit_IO)
 
     def setup_dropdowns(self):
         # Generate options for the dropdowns based on the number of valves
@@ -341,7 +371,7 @@ class View(QWidget):
         # Leer el estado predeterminado desde la configuración
         default_state = style_config.get("default_state", "disabled")
 
-        button.setIcon(qta.icon(icon, color="white"))
+        button.setIcon(qta.icon(icon, color=text_color))
 
         # Crear la cadena de estilo CSS
         style_sheet = f"""

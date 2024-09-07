@@ -79,14 +79,14 @@ def main():
     settings = load_settings()
 
     # Extract individual parameters from settings
-    ip = settings.get("ip", "192.168.1.8")
-    coils = settings.get("coils", 16)
-    actLow = settings.get("actLow", True)
-    virtual = settings.get("virtual", False)
+    ip = settings["wago"].get("ip", "192.168.1.8")
+    coils = settings["wago"].get("coils", 16)
+    actLow = settings["wago"].get("actLow", True)
+    virtual = settings["wago"].get("virtual", False)
 
     # Initialize the model, view, and controller
     model = WagoPLC(ip, coils, actLow, virtual)
-    view = View(config)
+    view = View(config, settings)
     controller = Controller(model, view)
 
     # Display the main window

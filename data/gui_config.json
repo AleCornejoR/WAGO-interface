@@ -31,7 +31,7 @@
             "type": "float"
         }
     },
-    "timer_manual":{
+    "timer_manual": {
         "label": "",
         "default-value": "0.5",
         "type": "float",
@@ -47,37 +47,58 @@
     },
     "tabs": {
         "home_tab": {
-            "name": "Home",
-            "tab_message": "Created by Rafael Cornejo"
+            "name": "Home"
         },
         "tester_tab": {
             "name": "Tester"
         },
         "settings_tab": {
-            "name": "Settings"
+            "name": "Settings",
+            "author_message": "Created by Rafael Cornejo"
         },
         "manual_tab": {
             "name": "Manual"
+        },
+        "log_tab": {
+            "name": "Log"
         }
     },
     "buttons": {
         "connect_button": {
             "label": "  Connect",
             "style": {
-                "icon": "ei.random",
-                "background-color": "#2196F3",
-                "border-radius": "10px",      
-                "color": "white",
-                "padding": "5px 5px",    
-                "min-width": "100px",
-                "max-width": "100px",
-                "hover-background-color": "#1976D2",
-                "hover-color": "white",
-                "pressed-background-color": "#0D47A1",
-                "pressed-color": "white", 
-                "disabled-background-color": "#CCCCCC",
-                "disabled-color": "#808080",
-                "default_state": "enabled"
+                "light": {
+                    "icon": "ei.random",
+                    "background-color": "#2196F3",
+                    "border-radius": "10px",
+                    "color": "white",
+                    "padding": "5px 5px",
+                    "min-width": "100px",
+                    "max-width": "100px",
+                    "hover-background-color": "#1976D2",
+                    "hover-color": "white",
+                    "pressed-background-color": "#0D47A1",
+                    "pressed-color": "white",
+                    "disabled-background-color": "#CCCCCC",
+                    "disabled-color": "#808080",
+                    "default_state": "enabled"
+                },
+                "dark": {
+                    "icon": "ei.random",
+                    "background-color": "#2196F3",
+                    "border-radius": "10px",
+                    "color": "white",
+                    "padding": "5px 5px",
+                    "min-width": "100px",
+                    "max-width": "100px",
+                    "hover-background-color": "#1976D2",
+                    "hover-color": "white",
+                    "pressed-background-color": "#0D47A1",
+                    "pressed-color": "white",
+                    "disabled-background-color": "#CCCCCC",
+                    "disabled-color": "#808080",
+                    "default_state": "enabled"
+                }
             }
         },
         "poweroff_button": {
@@ -85,15 +106,15 @@
             "style": {
                 "icon": "ei.off",
                 "background-color": "#E74C3C",
-                "border-radius": "10px",      
+                "border-radius": "10px",
                 "color": "white",
-                "padding": "5px 5px",    
+                "padding": "5px 5px",
                 "min-width": "150px",
                 "max-width": "150px",
                 "hover-background-color": "#C0392B",
                 "hover-color": "white",
                 "pressed-background-color": "#A93226",
-                "pressed-color": "white", 
+                "pressed-color": "white",
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
                 "default_state": "disabled"
@@ -104,15 +125,15 @@
             "style": {
                 "icon": "fa5b.telegram-plane",
                 "background-color": "#28a745",
-                "border-radius": "10px",      
+                "border-radius": "10px",
                 "color": "white",
-                "padding": "5px 5px",    
+                "padding": "5px 5px",
                 "min-width": "80px",
                 "max-width": "80px",
                 "hover-background-color": "#218838",
                 "hover-color": "white",
                 "pressed-background-color": "#1e7e34",
-                "pressed-color": "white", 
+                "pressed-color": "white",
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
                 "default_state": "disabled"
@@ -121,18 +142,18 @@
         "test_manual_button": {
             "label": "",
             "style": {
-                "icon": "fa5b.telegram-plane", 
+                "icon": "fa5b.telegram-plane",
                 "second-icon": "ph.telegram-logo-fill",
                 "background-color": "#28a745",
-                "border-radius": "10px",      
+                "border-radius": "10px",
                 "color": "white",
-                "padding": "5px 0px",    
+                "padding": "5px 0px",
                 "min-width": "30px",
                 "max-width": "30px",
                 "hover-background-color": "#218838",
                 "hover-color": "white",
                 "pressed-background-color": "#1e7e34",
-                "pressed-color": "white", 
+                "pressed-color": "white",
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
                 "default_state": "disabled"
@@ -143,15 +164,15 @@
             "style": {
                 "icon": "msc.stop",
                 "background-color": "#E74C3C",
-                "border-radius": "10px",      
+                "border-radius": "10px",
                 "color": "white",
-                "padding": "5px 5px",    
+                "padding": "5px 5px",
                 "min-width": "300px",
                 "max-width": "300px",
                 "hover-background-color": "#1976D2",
                 "hover-color": "white",
                 "pressed-background-color": "#A93226",
-                "pressed-color": "white", 
+                "pressed-color": "white",
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
                 "default_state": "enabled"
@@ -162,15 +183,15 @@
             "style": {
                 "icon": "mdi6.pipe-valve",
                 "background-color": "#2196F3",
-                "border-radius": "10px",      
+                "border-radius": "10px",
                 "color": "white",
-                "padding": "5px 5px",    
+                "padding": "5px 5px",
                 "min-width": "90px",
                 "max-width": "90px",
                 "hover-background-color": "#1976D2",
                 "hover-color": "white",
                 "pressed-background-color": "#0D47A1",
-                "pressed-color": "white", 
+                "pressed-color": "white",
                 "disabled-background-color": "#CCCCCC",
                 "disabled-color": "#808080",
                 "default_state": "disabled"
@@ -186,7 +207,7 @@
                 "background-color-on": "#0be81b",
                 "background-color-off": "darkgray",
                 "border": "none",
-                "border-radius": "15px",        
+                "border-radius": "15px",
                 "button-width": 30,
                 "button-height": 30,
                 "icon-width": 25,
@@ -210,6 +231,18 @@
         },
         "tester": {
             "placeholder": "Tester logs will be displayed here...",
+            "style": {
+                "background-color": "#FCFCFC",
+                "border": "1px solid #6D6D6D",
+                "border-radius": "10px",
+                "font-size": "12px",
+                "font-family": "Consolas",
+                "color": "#000000",
+                "padding": "10px"
+            }
+        },
+        "log": {
+            "placeholder": "Genaral logs will be displayed here...",
             "style": {
                 "background-color": "#FCFCFC",
                 "border": "1px solid #6D6D6D",

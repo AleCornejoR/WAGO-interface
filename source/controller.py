@@ -8,13 +8,14 @@ class Controller:
         self.model = model
         self.view = view
 
-        # Connect the view's buttons to their corresponding controller methods
-        self.connect_signals()
-
         # Gather all buttons into a list for easier management
         self.all_buttons = self.gather_buttons()
         self.home_log = self.view.home_log_box
         self.tester_log = self.view.tester_log_box
+        self.log_log = self.view.log_log_box
+
+        # Connect the view's buttons to their corresponding controller methods
+        self.connect_signals()
 
         # Initialize the user interface
         self.initUI()
@@ -22,15 +23,19 @@ class Controller:
     def connect_signals(self):
         """Connect the view's buttons to their corresponding controller methods."""
         self.view.test_button.clicked.connect(self.handle_test_button_click)
-        print("1 connected")
+        self.log_message("[*] Test_button connected", self.log_log)
+
         self.view.connect_button.clicked.connect(self.handle_connect_button_click)
-        print("2 connected")
+        self.log_message("[*] Connect_button connected", self.log_log)
+
         # self.view.poweroff_button.clicked.connect(self.handle_poweroff_button_click)
+        # self.log_message("[*] Poweroff_button connected", self.log_log)
 
         self.connect_valve_buttons()
 
     def connect_valve_buttons(self):
         print("connecting valves")
+        self.log_message("[*] Connecting Valves in Manual Tab", self.log_log)
         num_valves = self.view.config["num_valves"]  # Número total de válvulas
 
         for i in range(1, num_valves + 1):
@@ -42,6 +47,7 @@ class Controller:
                 lambda checked, coil=i - 1: self.handle_toogle_valve_button_click(coil)
             )
             print(f"manual toggle {i} connected")
+            self.log_message(f"[>] Manual toggle {i} connected", self.log_log)
 
     def gather_buttons(self):
         """Collect all buttons from the view into a list, including those in the manual tab."""
@@ -89,6 +95,7 @@ class Controller:
         """
         # Log the initiation of the test
         print("Test button clicked!")
+        self.log_message("[*] Test button clicked!", self.log_log)
         self.wago_connection_set()
 
         self.log_message(
@@ -161,6 +168,7 @@ class Controller:
         # Disable all buttons during connection attempt
         self.set_buttons(self.all_buttons, False)
         print("Connect button clicked!")
+        self.log_message("[*] Connect button clicked!", self.log_log)
         self.log_message(
             f"[*] Trying to connect to WAGO at IP {self.model.ip}...",
             self.home_log,
@@ -201,6 +209,7 @@ class Controller:
         Handle the logic when the 'Poweroff' button is clicked.
         """
         print("Poweroff button clicked!")
+        self.log_message("[*] Poweroff button clicked!", self.log_log)
 
         # Attempt to connect to the model
         self.wago_connection_set()

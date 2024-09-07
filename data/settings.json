@@ -1,6 +1,12 @@
 {
-    "ip": "192.168.1.8",
-    "coils": 16,
-    "actLow": false,
-    "virtual": false
+    "wago": {
+        "ip": "192.168.1.8",
+        "coils": 16,
+        "actLow": false,
+        "virtual": false
+    },
+    "interface-settings": {
+        "theme": "dark",
+        "version": 3.1
+    }
 }
