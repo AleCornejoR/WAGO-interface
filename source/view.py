@@ -105,7 +105,7 @@ class View(QWidget):
             True
         )  # Hacer que el cuadro de texto sea de solo lectura
         self.apply_text_box_styles(
-            self.home_log_box, self.config["log_box"]["home"]["style"]
+            self.home_log_box, self.config["log_box"]["home"]["style"]["dark"]
         )
         layout.addWidget(self.home_log_box)
 
@@ -149,7 +149,7 @@ class View(QWidget):
             True
         )  # Hacer que el cuadro de texto sea de solo lectura
         self.apply_text_box_styles(
-            self.tester_log_box, self.config["log_box"]["tester"]["style"]
+            self.tester_log_box, self.config["log_box"]["tester"]["style"]["dark"]
         )
         self.right_layout.addWidget(self.tester_log_box)
 
@@ -199,7 +199,7 @@ class View(QWidget):
             True
         )  # Hacer que el cuadro de texto sea de solo lectura
         self.apply_text_box_styles(
-            self.log_log_box, self.config["log_box"]["log"]["style"]
+            self.log_log_box, self.config["log_box"]["log"]["style"]["dark"]
         )
         log_layout.addWidget(self.log_log_box)
 
