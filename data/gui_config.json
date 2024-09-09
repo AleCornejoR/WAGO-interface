@@ -220,37 +220,70 @@
         "home": {
             "placeholder": "Home logs will be displayed here... \nPress Connect to Start",
             "style": {
-                "background-color": "#FCFCFC",
-                "border": "1px solid #6D6D6D",
-                "border-radius": "10px",
-                "font-size": "12px",
-                "font-family": "Consolas",
-                "color": "#000000",
-                "padding": "10px"
+                "dark": {
+                    "background-color": "#414141",
+                    "border": "1px solid #6D6D6D",
+                    "border-radius": "10px",
+                    "font-size": "12px",
+                    "font-family": "Consolas",
+                    "color": "white",
+                    "padding": "10px"
+                },
+                "light": {
+                    "background-color": "#FCFCFC",
+                    "border": "1px solid #6D6D6D",
+                    "border-radius": "10px",
+                    "font-size": "12px",
+                    "font-family": "Consolas",
+                    "color": "#000000",
+                    "padding": "10px"
+                }
             }
         },
         "tester": {
             "placeholder": "Tester logs will be displayed here...",
             "style": {
-                "background-color": "#FCFCFC",
-                "border": "1px solid #6D6D6D",
-                "border-radius": "10px",
-                "font-size": "12px",
-                "font-family": "Consolas",
-                "color": "#000000",
-                "padding": "10px"
+                "dark": {
+                    "background-color": "#414141",
+                    "border": "1px solid #6D6D6D",
+                    "border-radius": "10px",
+                    "font-size": "12px",
+                    "font-family": "Consolas",
+                    "color": "white",
+                    "padding": "10px"
+                },
+                "light": {
+                    "background-color": "#FCFCFC",
+                    "border": "1px solid #6D6D6D",
+                    "border-radius": "10px",
+                    "font-size": "12px",
+                    "font-family": "Consolas",
+                    "color": "#000000",
+                    "padding": "10px"
+                }
             }
         },
         "log": {
             "placeholder": "Genaral logs will be displayed here...",
             "style": {
-                "background-color": "#FCFCFC",
-                "border": "1px solid #6D6D6D",
-                "border-radius": "10px",
-                "font-size": "12px",
-                "font-family": "Consolas",
-                "color": "#000000",
-                "padding": "10px"
+                "dark": {
+                    "background-color": "#414141",
+                    "border": "1px solid #6D6D6D",
+                    "border-radius": "10px",
+                    "font-size": "12px",
+                    "font-family": "Consolas",
+                    "color": "white",
+                    "padding": "10px"
+                },
+                "light": {
+                    "background-color": "#FCFCFC",
+                    "border": "1px solid #6D6D6D",
+                    "border-radius": "10px",
+                    "font-size": "12px",
+                    "font-family": "Consolas",
+                    "color": "#000000",
+                    "padding": "10px"
+                }
             }
         }
     },
